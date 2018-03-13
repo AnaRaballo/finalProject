@@ -20,6 +20,6 @@ const AdpotSchema = new Schema({
     }
 );
 
-const Adpotion = mongoose.model('Adoption', AdpotSchema);
+const Adoption = mongoose.model('Adoption', AdpotSchema);
 
 module.exports = Adoption;

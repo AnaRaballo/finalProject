@@ -16,7 +16,7 @@ adoptRoutes.post('/api/adoption/new', myUpload.single('phonePic'), (req, res, ne
         res.status(401).json({ message: "Log in to post"});
         return;
     }
-    const newDogAdoption = new Dog ({
+    const newDogAdoption = new Adoption ({
         description : req.body.dogDescription,
         owner: req.user._id
     });
@@ -49,7 +49,7 @@ adoptRoutes.get('/api/adoption', (req, res, next) => {
         res.status(401).json({ message: "Log in to see dogs for adoption"});
     return;
     }
-    Dog.find()
+    Adoption.find()
     .populate('user', { encryptedPassword: 0 })
     .exec((err, allTheDogs) => {
         if (err) {
@@ -71,7 +71,7 @@ adoptRoutes.get("/api/adoption/:id", (req, res, next) => {
         return;
     }
 
-    Dog.findById(req.params.id, (err, theDog) => {
+    Adoption.findById(req.params.id, (err, theDog) => {
         if (err) {
             res.status(500).json({ message: "Dog find went bad"});
             return;
@@ -96,7 +96,7 @@ adoptRoutes.put('/api/adoption/:id', (req, res, next) => {
             description : req.body.dogDescription,
             image: req.body.image
         };
-    Dog.findByIdAndUpdate(req.params.id, updates, err => {
+    Adoption.findByIdAndUpdate(req.params.id, updates, err => {
         if (err) {
             res.json(err);
             return;
@@ -114,12 +114,12 @@ adoptRoutes.delete("/api/adoption/:id", (req, res, next) => {
         res.status(401).json({ message: "Log in to delete dog"});
         return;
     }
-    if (!mongoose.Types.ObjectId.isValis(req.params.id)) {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Specified id is not valid" });
         return;
     }
 
-    Dog.remove({ _id: req.params.id }, err => {
+    Adoption.remove({ _id: req.params.id }, err => {
         if (err) {
             res.json(err);
             return;

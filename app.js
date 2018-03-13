@@ -51,7 +51,11 @@ app.use("/", index);
 var authRoutes = require("./routes/auth-routes");
 app.use("/", authRoutes);
 
+var adoptRoutes = require("./routes/adopt-routes");
+app.use("/", adoptRoutes);
 
+var lostRoutes = require("./routes/lost-routes");
+app.use("/", lostRoutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

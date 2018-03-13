@@ -54,7 +54,7 @@ authRoutes.post('/api/login', (req, res, next) => {
     const authFunction = passport.authenticate('local', (err, theUser, failureDetails) => {
 
         if(err){
-            re.status(500).json({message: "Unknown error"});
+            res.status(500).json({message: "Unknown error"});
             return;
         }
         if(!theUser) {
@@ -66,7 +66,7 @@ authRoutes.post('/api/login', (req, res, next) => {
                 res.status(500).json({message: "Something went wrong in session"});
                 return;
             }
-            theUSer.encryptedPassword = undefined;
+            theUser.encryptedPassword = undefined;
             res.status(200).json(theUser);
         });
     });
