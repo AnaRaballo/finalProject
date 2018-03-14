@@ -11,7 +11,7 @@ const myUpload = multer({
 });
 
 //=================== CREATE NEW DOG FOR ADOPTION ===================
-adoptRoutes.post('/api/adoption/new', myUpload.single('phonePic'), (req, res, next) => {
+adoptRoutes.post('/api/adoption/new', myUpload.single('phoneImage'), (req, res, next) => {
     if (!req.user){
         res.status(401).json({ message: "Log in to post"});
         return;

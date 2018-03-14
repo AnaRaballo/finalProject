@@ -11,7 +11,7 @@ const myUpload = multer({
 });
 
 //=================== CREATE NEW LOST DOG ===================
-lostRoutes.post('/api/lost/new', myUpload.single('phonePice'), (req, res, next) => {
+lostRoutes.post('/api/lost/new', myUpload.single('phoneImage'), (req, res, next) => {
     if (!req.user){
         res.status(401).json({ message: "Log in to post"});
         return;
