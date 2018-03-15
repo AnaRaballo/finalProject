@@ -6,12 +6,12 @@ const adoptRoutes = express.Router();
 const Adoption = require('../models/adoption-model');
 
 //multer for photo
-const myUpload = multer({
+const myUploader = multer({
     dest: __dirname + "/../public/uploads/"
 });
 
 //=================== CREATE NEW DOG FOR ADOPTION ===================
-adoptRoutes.post('/api/adoption/new', myUpload.single('phoneImage'), (req, res, next) => {
+adoptRoutes.post('/api/adoption', myUploader.single('dogImage'), (req, res, next) => {
     if (!req.user){
         res.status(401).json({ message: "Log in to post"});
         return;
@@ -21,10 +21,12 @@ adoptRoutes.post('/api/adoption/new', myUpload.single('phoneImage'), (req, res, 
         owner: req.user._id
     });
     if(req.file){
-        newDogAdoption.image = '/uploads' + req.file.filename
+        newDogAdoption.image = '/uploads/' + req.file.filename
     }
 
     newDogAdoption.save((err) => {
+        console.log("im in the save", newDogAdoption)
+
         if(err){
             res.status(500).json({ message: "Database error"});
             return;
@@ -36,8 +38,8 @@ adoptRoutes.post('/api/adoption/new', myUpload.single('phoneImage'), (req, res, 
             });
             return;
         }
-        req.user.encryptedPassword = undefined;
-        newDogAdoption.user = req.user;
+        // req.user.encryptedPassword = undefined;
+        // newDogAdoption.user = req.user;
 
         res.status(200).json(newDogAdoption);
     });

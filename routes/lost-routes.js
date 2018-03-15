@@ -6,12 +6,12 @@ const lostRoutes = express.Router();
 const LostFound = require('../models/lost-model');
 
 //multer for photo
-const myUpload = multer({
+const myUploader = multer({
     dest: __dirname + "/../public/uploads/"
 });
 
 //=================== CREATE NEW LOST DOG ===================
-lostRoutes.post('/api/lost/new', myUpload.single('phoneImage'), (req, res, next) => {
+lostRoutes.post('/api/lost/new', myUploader.single('dogImage'), (req, res, next) => {
     if (!req.user){
         res.status(401).json({ message: "Log in to post"});
         return;
@@ -22,7 +22,7 @@ lostRoutes.post('/api/lost/new', myUpload.single('phoneImage'), (req, res, next)
         owner: req.user._id
     })
     if(req.file){
-        newLostDog.image = "/uploads" + req.file.filename
+        newLostDog.image = "/uploads/" + req.file.filename
     }
     newLostDog.save((err) => {
         if(err){

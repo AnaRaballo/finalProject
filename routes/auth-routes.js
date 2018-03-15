@@ -80,7 +80,6 @@ authRoutes.post("/api/logout", (req, res, next) => {
 
 authRoutes.get("/api/checklogin", (req, res, next) => {
     if (req.isAuthenticated()) {
-        // res.status(200)
         res.status(200).json(req.user);
         return;
     }
