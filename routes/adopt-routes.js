@@ -45,10 +45,10 @@ adoptRoutes.post('/api/adoption/new', myUpload.single('phoneImage'), (req, res, 
 
 //=================== LIST DOGS FOR ADPTION ===================
 adoptRoutes.get('/api/adoption', (req, res, next) => {
-    if (!req.user) {
-        res.status(401).json({ message: "Log in to see dogs for adoption"});
-    return;
-    }
+    // if (!req.user) {
+    //     res.status(401).json({ message: "Log in to see dogs for adoption"});
+    // return;
+    // }
     Adoption.find()
     .populate('user', { encryptedPassword: 0 })
     .exec((err, allTheDogs) => {
@@ -62,10 +62,10 @@ adoptRoutes.get('/api/adoption', (req, res, next) => {
 
 //=================== LIST A SINGLE DOG ===================
 adoptRoutes.get("/api/adoption/:id", (req, res, next) => {
-    if (!req.user) {
-        res.status(401).json({ message: "Log in to see dog" });
-        return;
-    }
+    // if (!req.user) {
+    //     res.status(401).json({ message: "Log in to see dog" });
+    //     return;
+    // }
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Specified id is not valid" });
         return;
