@@ -45,10 +45,10 @@ lostRoutes.post('/api/lost/new', myUpload.single('phoneImage'), (req, res, next)
 
 //=================== LIST LOST DOGS ===================
 lostRoutes.get('/api/lost', (req, res, next) => {
-    if (!req.user) {
-        res.status(401).json({ message: "Log in to see lost dogs"});
-    return;
-    }
+    // if (!req.user) {
+    //     res.status(401).json({ message: "Log in to see lost dogs"});
+    // return;
+    // }
     LostFound.find()
     .populate('user', { encryptedPassword: 0 })
     .exec((err, allLostDogs) => {
@@ -62,10 +62,10 @@ lostRoutes.get('/api/lost', (req, res, next) => {
 
 //=================== LIST A SINGLE LOST DOG ===================
 lostRoutes.get("/api/lost/:id", (req, res, next) => {
-    if (!req.user) {
-        res.status(401).json({ message: "Log in to see dog"});
-        return;
-    }
+    // if (!req.user) {
+    //     res.status(401).json({ message: "Log in to see dog"});
+    //     return;
+    // }
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
         res.status(400).json({ message: "Specified id is not valid"});
         return;
