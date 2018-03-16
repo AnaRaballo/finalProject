@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const LostSchema = new Schema({
-        dogPicture: {
+        image: {
             type: String
         },
         location: {

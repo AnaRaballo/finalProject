@@ -11,14 +11,14 @@ const myUploader = multer({
 });
 
 //=================== CREATE NEW LOST DOG ===================
-lostRoutes.post('/api/lost/new', myUploader.single('dogImage'), (req, res, next) => {
+lostRoutes.post('/api/lost', myUploader.single('lostDogImage'), (req, res, next) => {
     if (!req.user){
         res.status(401).json({ message: "Log in to post"});
         return;
     }
     const newLostDog = new LostFound ({
         // dogPicture: req.file.filename,
-        location: req.body.dogLocation,
+        location: req.body.lostDogLocation,
         owner: req.user._id
     })
     if(req.file){
