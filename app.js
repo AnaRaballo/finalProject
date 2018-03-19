@@ -8,6 +8,8 @@ var mongoose = require("mongoose");
 var session = require('express-session');
 var passport = require('passport');
 var cors = require('cors');
+const nodemailer = require('nodemailer');
+// const smtp = require('nodemailer-smtp-transport');
 
 
 require('./configs/passport-config');

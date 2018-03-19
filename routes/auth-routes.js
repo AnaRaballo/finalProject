@@ -8,8 +8,8 @@ const User = require('../models/user-model');
 const authRoutes = express.Router();
 
 authRoutes.post('/api/signup', (req, res, next) => {
-    if(!req.body.signUpUsername || !req.body.signUpPassword){
-        res.status(400).json({message: "Provide username and password"});
+    if(!req.body.signUpUsername || !req.body.signUpEmail || !req.body.signUpPassword){
+        res.status(400).json({message: "Provide username, email and password"});
         return;
     }
     User.findOne({ username: req.body.signUpUsername }, (err, userFromDb) => {
@@ -27,6 +27,7 @@ authRoutes.post('/api/signup', (req, res, next) => {
 
         const theUser = new User ({
             username: req.body.signUpUsername,
+            email: req.body.signUpEmail,
             encryptedPassword: scrambledPassword
         });
         theUser.save((err) => {

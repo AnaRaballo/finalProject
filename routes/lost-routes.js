@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const express = require("express");
 const multer = require("multer");
 const lostRoutes = express.Router();
+const nodemailer = require('nodemailer');
+// const smtp = require('nodemailer-smtp-transport');
 
 const LostFound = require('../models/lost-model');
 const NodeGeocoder = require('node-geocoder');
