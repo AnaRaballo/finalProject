@@ -1,9 +1,23 @@
+// import { log } from '../../../../../Library/Caches/typescript/2.6/node_modules/@types/async';
+
 const mongoose = require('mongoose');
 const express = require("express");
 const multer = require("multer");
 const lostRoutes = express.Router();
 
 const LostFound = require('../models/lost-model');
+const NodeGeocoder = require('node-geocoder');
+
+const options = {
+  provider: 'google',
+ 
+  // Optional depending on the providers
+  httpAdapter: 'https', // Default
+  apiKey: 'AIzaSyDg8RJxITThryFICnALvvijIyvMl8TYgjg', // for Mapquest, OpenCage, Google Premier
+  formatter: null         // 'gpx', 'string', ...
+};
+ 
+const geocoder = NodeGeocoder(options);
 
 //multer for photo
 const myUploader = multer({
@@ -16,16 +30,24 @@ lostRoutes.post('/api/lost', myUploader.single('lostDogImage'), (req, res, next)
         res.status(401).json({ message: "Log in to post"});
         return;
     }
+
+    geocoder.geocode(req.body.lostDogLocation)
+  .then(function(info) {
+    var locationInfo = info;
     const newLostDog = new LostFound ({
         // dogPicture: req.file.filename,
         location: req.body.lostDogLocation,
-        owner: req.user._id
+        owner: req.user._id,
+        latitude: locationInfo[0].latitude,
+        longitude: locationInfo[0].longitude
     })
+
     if(req.file){
         newLostDog.image = "/uploads/" + req.file.filename
     }
     newLostDog.save((err) => {
         if(err){
+            console.log(newLostDog)
             res.status(500).json({ message: "Database error"});
             return;
         }
@@ -41,6 +63,16 @@ lostRoutes.post('/api/lost', myUploader.single('lostDogImage'), (req, res, next)
 
         res.status(200).json(newLostDog);
     });
+
+
+
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
+  
+
 });
 
 //=================== LIST LOST DOGS ===================

@@ -9,6 +9,7 @@ var session = require('express-session');
 var passport = require('passport');
 var cors = require('cors');
 
+
 require('./configs/passport-config');
 
 mongoose.connect('mongodb://localhost/secondProject')
