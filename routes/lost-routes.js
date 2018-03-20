@@ -20,6 +20,7 @@ const options = {
 };
  
 const geocoder = NodeGeocoder(options);
+const geocoder2 = NodeGeocoder(options);
 
 //multer for photo
 const myUploader = multer({
@@ -126,22 +127,33 @@ lostRoutes.put('/api/lost/:id', (req, res, next) => {
         return;
     }
 
-    const updateLostDog = {
-        dogPicture: req.body.image,
-        location: req.body.dogLocation,
-    };
-
-    LostFound.findByIdAndUpdate(req.params.id, updateLostDog, err => {
-        if (err) {
-            res.json(err);
-            return;
-        }
-
-        res.json({
-            message: "Lost Dog updated successfully"
+    geocoder2.geocode(req.body.dogLocation)
+    .then(function(info) {
+        // var locationInfo = info;
+        
+        const updateLostDog = {
+            location: req.body.dogLocation,
+            latitude: info[0].latitude,
+            longitude: info[0].longitude
+        };
+        // if(req.body.image){
+            //     updateLostDog.image = req.body.image
+            // }
+       
+            
+            
+            LostFound.findByIdAndUpdate(req.params.id, updateLostDog, err => {
+                if (err) {
+                    res.json(err);
+                    return;
+                }
+                
+                res.json({
+                    message: "Lost Dog updated successfully"
+                });
+            });
         });
     });
-});
 
 //=================== LOST DOG FOUND ===================
 lostRoutes.delete("/api/lost/:id", (req, res, next) => {

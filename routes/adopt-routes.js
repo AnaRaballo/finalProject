@@ -93,11 +93,13 @@ adoptRoutes.put('/api/adoption/:id', (req, res, next) => {
         res.status(400).json({ message: "Specified id is not valid"});
         return;
     }
-
+        console.log(req.body.image);
         const updates = {
             description : req.body.dogDescription,
-            image: req.body.image
         };
+        if(req.body.image){
+            updates.image = req.body.image;
+        }
     Adoption.findByIdAndUpdate(req.params.id, updates, err => {
         if (err) {
             res.json(err);
