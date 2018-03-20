@@ -41,9 +41,11 @@ lostRoutes.post('/api/lost', myUploader.single('lostDogImage'), (req, res, next)
         // dogPicture: req.file.filename,
         location: req.body.lostDogLocation,
         owner: req.user._id,
+        ownerEmail: req.user.email,
         latitude: locationInfo[0].latitude,
         longitude: locationInfo[0].longitude
     })
+    console.log("--------", req.user)
 
     if(req.file){
         newLostDog.image = "/uploads/" + req.file.filename
