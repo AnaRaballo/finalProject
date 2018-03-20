@@ -18,7 +18,8 @@ adoptRoutes.post('/api/adoption', myUploader.single('dogImage'), (req, res, next
     }
     const newDogAdoption = new Adoption ({
         description : req.body.dogDescription,
-        owner: req.user._id
+        owner: req.user._id,
+        ownerEmail: req.user.email,
     });
     if(req.file){
         newDogAdoption.image = '/uploads/' + req.file.filename
