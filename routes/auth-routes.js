@@ -9,12 +9,12 @@ const authRoutes = express.Router();
 
 authRoutes.post('/api/signup', (req, res, next) => {
     if(!req.body.signUpUsername || !req.body.signUpEmail || !req.body.signUpPassword){
-        res.status(400).json({message: "Provide username, email and password"});
+        res.status(400).json({message: "Provide Username, Email and Password"});
         return;
     }
     User.findOne({ username: req.body.signUpUsername }, (err, userFromDb) => {
         if(err){
-            res.status(500).json({message: "Incorrect username"});
+            res.status(500).json({message: "Incorrect Username"});
             return;
         }
         if(userFromDb){
@@ -38,7 +38,7 @@ authRoutes.post('/api/signup', (req, res, next) => {
             //Automatically log in user after sign up
             req.login(theUser,(err) => {
                 if(err){
-                    res.status(500).json({message: "Could not login"});
+                    res.status(500).json({message: "Could not log in"});
                     return;
                 }
                 // Clear encryptedPassword from object before sending
